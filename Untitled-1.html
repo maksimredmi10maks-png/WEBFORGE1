@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebForge — Экосистема цифровых решений</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #00c3ff;
+            --secondary: #7000ff;
+            --bg: #02050a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(0, 195, 255, 0.2);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: white;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* КНОПКИ ВХОДА И РЕГИСТРАЦИИ (НОВОЕ) */
+        .auth-nav {
+            position: fixed;
+            top: 20px;
+            right: 40px;
+            z-index: 1001;
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--primary);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            color: var(--bg);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .nav-btn.reg {
+            background: var(--primary);
+            color: var(--bg);
+        }
+
+        /* ЖИВОЙ КОСМОС НА ФОНЕ */
+        .space-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #0a1128 0%, #02050a 100%);
+            z-index: -1;
+        }
+
+        .stars {
+            position: absolute;
+            width: 200%; height: 200%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            animation: moveStars 150s linear infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes moveStars {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-50%, -50%); }
+        }
+
+        /* ГЛАВНЫЙ ЭКРАН */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(40px, 12vw, 110px);
+            font-weight: 900;
+            letter-spacing: 15px;
+            margin: 0;
+            animation: dropIn 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+        }
+
+        @keyframes dropIn {
+            0% { transform: translateY(-200px); opacity: 0; filter: blur(10px); }
+            100% { transform: translateY(0); opacity: 1; text-shadow: 0 0 20px var(--primary); }
+        }
+
+        .hero-tagline {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin-top: 15px;
+            letter-spacing: 5px;
+            opacity: 0;
+            animation: fadeIn 2s forwards 1.2s;
+        }
+
+        /* СТИЛЬ СЕКЦИЙ */
+        section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: 1s ease-out;
+        }
+
+        section.visible { opacity: 1; transform: translateY(0); }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: clamp(24px, 5vw, 40px);
+            text-align: center;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
+
+        /* О КОМПАНИИ */
+        .about-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            line-height: 1.8;
+            color: #bdc3c7;
+        }
+
+        .about-box b { color: var(--primary); }
+
+        /* УСЛУГИ */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.4s;
+        }
+
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 0 30px rgba(0, 195, 255, 0.2); }
+        .card img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--border); }
+        .card-content { padding: 30px; }
+        .card-content h3 { font-family: 'Orbitron', sans-serif; color: var(--primary); margin: 0 0 15px 0; }
+
+        /* 8 ТЕХНОЛОГИЙ */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .tech-item {
+            background: rgba(255,255,255,0.02);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid transparent;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .tech-item:hover { border-color: var(--secondary); background: rgba(112, 0, 255, 0.05); }
+        .tech-item h3 { font-family: 'Orbitron', sans-serif; color: var(--primary); font-size: 16px; margin-bottom: 10px; }
+        .tech-item p { font-size: 13px; color: #95a5a6; }
+
+        /* КНОПКИ */
+        .btn-group { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
+        .btn {
+            padding: 18px 45px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.4s;
+            border: 1px solid var(--primary);
+            color: white;
+        }
+
+        .btn-wa { background: var(--primary); color: var(--bg); }
+        .btn:hover { box-shadow: 0 0 20px var(--primary); transform: scale(1.05); }
+
+        /* ОТЗЫВЫ ⭐ */
+        .reviews-button {
+            position: fixed;
+            bottom: 30px; left: 30px;
+            background: var(--bg);
+            color: var(--primary);
+            padding: 15px 30px;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateX(-200px);
+            transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .reviews-button.show { opacity: 1; transform: translateX(0); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 768px) { 
+            .btn { width: 100%; text-align: center; } 
+            .auth-nav { right: 20px; top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-nav">
+        <a href="login.html" class="nav-btn">Войти</a>
+        <a href="register.html" class="nav-btn reg">Регистрация</a>
+    </div>
+
+    <div class="space-bg"><div class="stars"></div></div>
+
+    <div class="hero">
+        <h1 class="hero-title">WEBFORGE</h1>
+        <div class="hero-tagline">МАСШТАБИРУЕМ ВАШ БИЗНЕС В ЦИФРОВОМ ПРОСТРАНСТВЕ</div>
+    </div>
+
+    <section>
+        <h2>Миссия WebForge</h2>
+        <div class="about-box">
+            <p><b>WebForge</b> — это создание высокотехнологичных инструментов для захвата рынка. Мы превращаем сайты в <b>автоматизированные машины продаж</b>, объединяя футуристичный дизайн и безупречный код.</p>
+            <p>Наша студия берет на себя всю техническую сложность: от аналитики до запуска. Мы строим архитектуру надежности, обеспечивая вашему бренду превосходство в сети.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Наши Системы</h2>
+        <div class="cards">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" alt="Landing">
+                <div class="card-content"><h3>Landing Page</h3><p>Взрывные продажи через одностраничные решения с высокой конверсией.</p></div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" alt="Shop">
+                <div class="card-content"><h3>E-commerce</h3><p>Мощные интернет-магазины с умным управлением товарами и заказами.</p></div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="Portal">
+                <div class="card-content"><h3>Бизнес-порталы</h3><p>Корпоративные сайты для имиджа и автоматизации внутренних процессов.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Технологическое превосходство</h2>
+        <div class="tech-grid">
+            <div class="tech-item"><h3>LightSpeed Engine</h3><p>Загрузка страниц быстрее мысли.</p></div>
+            <div class="tech-item"><h3>Adaptive Core</h3><p>Идеально на смартфонах и ПК.</p></div>
+            <div class="tech-item"><h3>SEO Orbit</h3><p>Первые позиции в поиске Google/Яндекс.</p></div>
+            <div class="tech-item"><h3>Deep Security</h3><p>Защита данных уровня корпораций.</p></div>
+            <div class="tech-item"><h3>UX/UI Fusion</h3><p>Дизайн, который заставляет покупать.</p></div>
+            <div class="tech-item"><h3>Lifetime Support</h3><p>Мы на связи даже после запуска.</p></div>
+            <div class="tech-item"><h3>Conversion Tracking</h3><p>Прозрачная аналитика каждой копейки.</p></div>
+            <div class="tech-item"><h3>Cloud Ready</h3><p>Готовность к миллионным нагрузкам.</p></div>
+        </div>
+    </section>
+
+    <section id="footer-trigger">
+        <h2>Готов заказать?</h2>
+        <div class="btn-group">
+            <a href="https://t.me/MaksonFar" target="_blank" class="btn">Telegram</a>
+            <a href="https://wa.me/77478200719" target="_blank" class="btn btn-wa">WhatsApp</a>
+        </div>
+    </section>
+
+    <div id="reviewBtn" class="reviews-button" onclick="window.location.href='https://benevolent-cactus-bb4786.netlify.app/'">
+        Отзывы ⭐
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+        const reviewBtn = document.getElementById('reviewBtn');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.id === 'footer-trigger') {
+                        reviewBtn.classList.add('show');
+                    }
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>
